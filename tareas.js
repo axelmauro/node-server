@@ -10,31 +10,45 @@ function mostrarTareas() {
 }
 
 function agregarTarea(descripcion) {
-  tareas.push({ descripcion, completada: false });
-  console.log(`Tarea "${descripcion}" agregada.`);
+  return new Promise((resolve) => {
+    tareas.push({ descripcion, completada: false });
+    console.log(`Tarea "${descripcion}" agregada.`);
+    resolve();
+  })
+  
 }
 
 function cambiarEstadoTarea(index) {
-  if (index >= 0 && index < tareas.length) {
-    const opciones = ['Completada', 'Pendiente'];
-    const seleccion = readlineSync.keyInSelect(opciones, 'Selecciona el estado de la tarea:');
+  return new Promise((resolve, reject) => {
+    if (index >= 0 && index < tareas.length) {
+      const opciones = ['Completada', 'Pendiente'];
+      const seleccion = readlineSync.keyInSelect(opciones, 'Selecciona el estado de la tarea:');
 
-    if (seleccion !== -1) {
-      tareas[index].completada = seleccion === 0;
-      console.log(`Tarea marcada como ${tareas[index].completada ? 'completada' : 'pendiente'}.`);
-    }
-  } else {
-    console.log('Índice de tarea no válido.');
+      if (seleccion !== -1) {
+        tareas[index].completada = seleccion === 0;
+        console.log(`Tarea marcada como ${tareas[index].completada ? 'completada' : 'pendiente'}.`);
+        resolve();
+      } else {
+        reject("opcion no valida: ");
+      }
+      } else {
+        reject("indice de la tarea no valido");
+      }
+    });
   }
-}
+
 
 function eliminarTarea(index) {
-  if (index >= 0 && index < tareas.length) {
-    const tareaEliminada = tareas.splice(index, 1);
-    console.log(`Tarea "${tareaEliminada[0].descripcion}" eliminada.`);
-  } else {
-    console.log('Índice de tarea no válido.');
-  }
+  return new Promise((resolve, reject) => {
+    if (index >= 0 && index < tareas.length) {
+      const tareaEliminada = tareas.splice(index, 1);
+      console.log(`Tarea "${tareaEliminada[0].descripcion}" eliminada.`);
+      resolve();
+    } else {
+      reject('Índice de tarea no válido.');
+    }
+  });
+  
 }
 
 const opciones = ['Mostrar tareas', 'Agregar tarea', 'Cambiar estado de tarea', 'Eliminar tarea', 'Salir'];
