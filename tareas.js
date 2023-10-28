@@ -53,41 +53,45 @@ function eliminarTarea(index) {
 
 const opciones = ['Mostrar tareas', 'Agregar tarea', 'Cambiar estado de tarea', 'Eliminar tarea', 'Salir'];
 
-while (true) {
-  const opcion = readlineSync.keyInSelect(opciones, 'Selecciona una opcion:');
+async function main() {
+  while (true) {
+    const opcion = readlineSync.keyInSelect(opciones, 'Selecciona una opción:');
 
-  switch (opcion) {
-    case 0:
-      mostrarTareas();
-      break;
-    case 1:
-      const descripcion = readlineSync.question('Ingresa la descripcion de la tarea: ');
-      agregarTarea(descripcion);
-      break;
-    case 2:
-      if (tareas.length > 0) {
-        const index = readlineSync.keyInSelect(tareas.map(tarea => tarea.descripcion), 'Selecciona una tarea:');
-        if (index !== -1) {
-          cambiarEstadoTarea(index);
+    switch (opcion) {
+      case 0:
+        mostrarTareas();
+        break;
+      case 1:
+        const descripcion = readlineSync.question('Ingresa la descripción de la tarea: ');
+        await agregarTarea(descripcion);
+        break;
+      case 2:
+        if (tareas.length > 0) {
+          const index = readlineSync.keyInSelect(tareas.map(tarea => tarea.descripcion), 'Selecciona una tarea:');
+          if (index !== -1) {
+            await cambiarEstadoTarea(index);
+          }
+        } else {
+          console.log('No hay tareas para cambiar su estado.');
         }
-      } else {
-        console.log('No hay tareas para cambiar su estado.');
-      }
-      break;
-    case 3:
-      if (tareas.length > 0) {
-        const index = readlineSync.keyInSelect(tareas.map(tarea => tarea.descripcion), 'Selecciona una tarea para eliminar:');
-        if (index !== -1) {
-          eliminarTarea(index);
+        break;
+      case 3:
+        if (tareas.length > 0) {
+          const index = readlineSync.keyInSelect(tareas.map(tarea => tarea.descripcion), 'Selecciona una tarea para eliminar:');
+          if (index !== -1) {
+            await eliminarTarea(index);
+          }
+        } else {
+          console.log('No hay tareas para eliminar.');
         }
-      } else {
-        console.log('No hay tareas para eliminar.');
-      }
-      break;
-    case 4:
-      process.exit(0);
-      break;
-    default:
-      console.log('Opción no válida. Intenta de nuevo.');
+        break;
+      case 4:
+        process.exit(0);
+        break;
+      default:
+        console.log('Opción no válida. Intenta de nuevo.');
+    }
   }
 }
+
+main();

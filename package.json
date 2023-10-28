@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.18.2",
     "readline-sync": "^1.4.10",
     "redline": "^1.0.1"
   }
